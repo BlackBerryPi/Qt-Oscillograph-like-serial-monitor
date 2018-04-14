@@ -19,6 +19,7 @@ public:
 
 signals:
     void request(const QString &s);
+    void requestInt(const int &i);
     void error(const QString &s);
     void timeout(const QString &s);
 

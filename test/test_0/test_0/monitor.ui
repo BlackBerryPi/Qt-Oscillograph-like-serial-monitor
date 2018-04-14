@@ -106,7 +106,7 @@
    <item row="1" column="0" rowspan="12" colspan="6">
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tabText">
       <attribute name="title">
@@ -161,7 +161,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="Oscilloscope" name="widget" native="true">
+        <widget class="Oscilloscope" name="oscilloscope" native="true">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>

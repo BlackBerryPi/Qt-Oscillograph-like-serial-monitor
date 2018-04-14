@@ -31,6 +31,7 @@ public:
 private slots:
     void startSlave();
     void showRequest(const QString &s);
+    void showRequestInt(const int &i);
     void processError(const QString &s);
     void processTimeout(const QString &s);
     void activateRunButton();

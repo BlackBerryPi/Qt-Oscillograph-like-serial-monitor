@@ -93,7 +93,8 @@ void SlaveThread::run()
             {
 //                requestData += serial.readAll();
 
-                emit request(serial.readAll().toHex());
+//                emit request(serial.readAll().toHex());
+                emit requestInt(QString(serial.readAll().toHex()).toInt(nullptr, 16));
             }
 //! [8] //! [10]
             // write response

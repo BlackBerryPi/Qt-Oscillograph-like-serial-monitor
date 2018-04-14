@@ -17,7 +17,7 @@ Monitor::Monitor(QWidget *parent) :
         ui->comboBoxPort->addItem(info.portName());
     }
 
-    setWindowTitle(tr("AttentivenessParameter"));
+    setWindowTitle(tr("串口监视器v1.01"));
     ui->comboBoxPort->setFocus();
 
     connect(ui->buttonStart, &QPushButton::clicked, [=](){
@@ -25,6 +25,7 @@ Monitor::Monitor(QWidget *parent) :
         //m_thread.shiftStatus();
     });
     connect(&m_thread, &SlaveThread::request, this,&Monitor::showRequest);
+    connect(&m_thread, &SlaveThread::requestInt, this,&Monitor::showRequestInt);
     connect(&m_thread, &SlaveThread::error, this, &Monitor::processError);
     connect(&m_thread, &SlaveThread::timeout, this, &Monitor::processTimeout);
 
@@ -66,10 +67,27 @@ void Monitor::startSlave()
 
 }
 
+/*
 void Monitor::showRequest(const QString &s)
 {
     qDebug() << "Receives: " << s;
+    ui->oscilloscope->setData(s.toInt());
     ui->textReceived->append("0x"+s);
+}
+*/
+
+void Monitor::showRequest(const QString &s)
+{
+//    qDebug() << "Receives: " << s;
+//    ui->oscilloscope->setData(s.toInt());
+    ui->textReceived->append(s);
+}
+
+void Monitor::showRequestInt(const int &i)
+{
+    //qDebug() << "Receives: " << i;
+    ui->oscilloscope->setData(i);
+    ui->textReceived->append(QString("%1").arg(i));
 }
 
 void Monitor::processError(const QString &s)

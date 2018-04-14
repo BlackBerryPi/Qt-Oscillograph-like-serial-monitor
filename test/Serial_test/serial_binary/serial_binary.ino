@@ -9,9 +9,12 @@ void loop() {
   // put your main code here, to run repeatedly:
   //Serial.write(0x05);
   if(val<0xff) {
-    val++;
+    val+=8;
   } else {
     val = 0;
   }
-  Serial.write(val);
+
+  for(int j=0; j<val; j++) {
+    Serial.write(j);
+  }
 }
