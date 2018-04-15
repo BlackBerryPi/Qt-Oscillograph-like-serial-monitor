@@ -58,7 +58,7 @@ void Oscilloscope::setData(int point)
 
 void Oscilloscope::paintEvent(QPaintEvent *e)
 {
-    x_resolution = width();
+    x_resolution = width()/2;
     y_resolution = height();
 
     QPainter p(this);
@@ -68,7 +68,7 @@ void Oscilloscope::paintEvent(QPaintEvent *e)
     pen.setWidth(2);
     p.setPen(pen);
 
-    QVector<int> tempVector = m_points.mid(m_curr-x_resolution, x_resolution+5);
+    QVector<int> tempVector = m_points.mid(m_curr-x_resolution-5, x_resolution+5);
 
     int step = ceil(((double)width())/x_resolution);
     if(step <= 0)
@@ -106,7 +106,12 @@ void Oscilloscope::resizeEvent(QResizeEvent *e)
 
 void Oscilloscope::on_resolutionChanged(int x_str, int y_str, int x_move, int y_move)
 {
+    //ui->checkFollow->setCheckState(false);
 
+    x_resolution += x_str;
+    y_resolution += y_str;
+    x_base += x_move;
+    y_base += y_move;
 }
 
 void Oscilloscope::on_checkFollow_stateChanged(int arg1)

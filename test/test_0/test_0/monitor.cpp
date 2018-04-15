@@ -112,5 +112,5 @@ void Monitor::activateRunButton()
 
 void Monitor::on_dialXStrech_valueChanged(int value)
 {
-    emit(resolutionChanged(value-m_prev_dialXStrech, 0, 0, 0));
+    emit resolutionChanged(value-m_prev_dialXStrech, 0, 0, 0);
 }

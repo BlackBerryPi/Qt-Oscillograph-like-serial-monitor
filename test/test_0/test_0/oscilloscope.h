@@ -42,6 +42,8 @@ private:
     bool m_follow = true;
     int x_resolution;
     int y_resolution;
+    int x_base = 0;                         //X偏移
+    int y_base = 0;                         //Y偏移
 
     qint64 m_initTime = 0;
     qint64 m_currTime = 0;
