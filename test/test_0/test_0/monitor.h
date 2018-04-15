@@ -29,20 +29,29 @@ public:
     ~Monitor();
 
 private slots:
-    void startSlave();
-    void showRequest(const QString &s);
-    void showRequestInt(const int &i);
-    void processError(const QString &s);
-    void processTimeout(const QString &s);
-    void activateRunButton();
+    void startSlave();                                          //启动串口线程
+    void showRequest(const QString &s);                         //显示串口线程传回的字符串信息
+    void showRequestInt(const int &i);                          //显示串口线程传回的数值信息
+    void processError(const QString &s);                        //串口报错
+    void processTimeout(const QString &s);                      //串口超时
+    void activateRunButton();                                   //启动时改变按钮文字
+
+    void on_dialXStrech_valueChanged(int value);
+
+signals:
+    void resolutionChanged(int x_str, int y_str, int x_move, int y_move);   //设置分辨率和偏移值
 
 private:
     Ui::Monitor *ui;
 
-    SlaveThread m_thread;
+    SlaveThread m_thread;                                       //串口线程
+
+    int m_prev_dialXStrech = 0;                                 //初始X拉伸
+    int m_prev_dialYStrech = 0;                                 //初始Y拉伸
+    int m_prev_dialXMove = 0;                                   //初始X平移
+    int m_prev_dialYMove = 0;                                   //初始Y平移
 
     int m_transactionCount = 0;
-    int text_lines = 0;
 };
 
 #endif // MONITOR_H

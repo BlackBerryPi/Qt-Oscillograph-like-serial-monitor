@@ -28,6 +28,7 @@ Monitor::Monitor(QWidget *parent) :
     connect(&m_thread, &SlaveThread::requestInt, this,&Monitor::showRequestInt);
     connect(&m_thread, &SlaveThread::error, this, &Monitor::processError);
     connect(&m_thread, &SlaveThread::timeout, this, &Monitor::processTimeout);
+    connect(this, &Monitor::resolutionChanged, ui->oscilloscope, &Oscilloscope::on_resolutionChanged);
 
     connect(ui->comboBoxPort, QOverload<const QString &>::of(&QComboBox::currentIndexChanged),
             this, &Monitor::activateRunButton);
@@ -107,4 +108,9 @@ void Monitor::activateRunButton()
 {
 //    ui->buttonStart->setEnabled(false);
 //    ui->buttonStart->setText("停止");
+}
+
+void Monitor::on_dialXStrech_valueChanged(int value)
+{
+    emit(resolutionChanged(value-m_prev_dialXStrech, 0, 0, 0));
 }

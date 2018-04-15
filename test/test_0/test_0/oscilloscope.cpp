@@ -3,6 +3,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QDateTime>
 
 Oscilloscope::Oscilloscope(QWidget *parent) :
     QWidget(parent),
@@ -12,12 +13,13 @@ Oscilloscope::Oscilloscope(QWidget *parent) :
 
     m_max = 255;
 
-    x_resolution = width();
-    y_resolution = height();
+    m_initTime = QDateTime::currentMSecsSinceEpoch();
 
     m_points.push_back(0);
-    //QVector<>.mid();
+//    QVector<>.mid();
     m_curr++;
+
+//    connect(ui->checkFollow, &QCheckBox::stateChanged, this, &Oscilloscope::on_checkFollow_stateChanged);
 }
 
 Oscilloscope::~Oscilloscope()
@@ -40,15 +42,25 @@ void Oscilloscope::setData(int point)
     {
         m_points.remove(0);
         m_points.push_back(point);
+        if(!m_follow)
+        {
+            if(m_curr > 0)
+            {
+                m_curr--;
+            }
+        }
     }
 
-    qDebug() << "Painter: " << point;
+    //qDebug() << "Painter: " << point;
 
     update();
 }
 
 void Oscilloscope::paintEvent(QPaintEvent *e)
 {
+    x_resolution = width();
+    y_resolution = height();
+
     QPainter p(this);
     QPen pen;
 
@@ -56,7 +68,7 @@ void Oscilloscope::paintEvent(QPaintEvent *e)
     pen.setWidth(2);
     p.setPen(pen);
 
-    QVector<int> tempVector = m_points.mid(m_curr-x_resolution, x_resolution+2);
+    QVector<int> tempVector = m_points.mid(m_curr-x_resolution, x_resolution+5);
 
     int step = ceil(((double)width())/x_resolution);
     if(step <= 0)
@@ -82,13 +94,24 @@ void Oscilloscope::paintEvent(QPaintEvent *e)
 
     for(QVector<int>::iterator it=tempVector.begin(); it!=tempVector.end(); it++)
     {
-        p.drawLine(x, (1-((*it-m_min)/(y_resolution-100.0)))*y_resolution-30, x+step, (1-((*(it+1)-m_min)/(y_resolution-100.0)))*y_resolution-30);
+        p.drawLine(x, (1-((*it-m_min)/(double(m_max-m_min+30))))*y_resolution-30, x+step, (1-((*(it+1)-m_min)/(double(m_max-m_min+30))))*y_resolution-30);
         x += step;
     }
 }
 
-void Oscilloscope::on_checkBox_stateChanged(int arg1)
+void Oscilloscope::resizeEvent(QResizeEvent *e)
+{
+    update();
+}
+
+void Oscilloscope::on_resolutionChanged(int x_str, int y_str, int x_move, int y_move)
+{
+
+}
+
+void Oscilloscope::on_checkFollow_stateChanged(int arg1)
 {
     m_follow = ui->checkFollow->checkState();
     m_curr = m_top;
+    //qDebug() << "checkbox changed";
 }

@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QPainter>
 
-#define MAXIMUM 10000
+#define MAXIMUM 100000
 
 namespace Ui {
 class Oscilloscope;
@@ -25,9 +25,13 @@ private:
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void resizeEvent(QResizeEvent *e);
+
+public slots:
+    void on_resolutionChanged(int x_str, int y_str, int x_move, int y_move);
 
 private slots:
-    void on_checkBox_stateChanged(int arg1);
+    void on_checkFollow_stateChanged(int arg1);
 
 private:
     QVector<int> m_points;
@@ -38,6 +42,9 @@ private:
     bool m_follow = true;
     int x_resolution;
     int y_resolution;
+
+    qint64 m_initTime = 0;
+    qint64 m_currTime = 0;
 };
 
 #endif // OSCILLOSCOPE_H
